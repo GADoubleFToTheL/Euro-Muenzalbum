@@ -9,6 +9,8 @@ man hakt ab, was man besitzt – und sieht sofort, was noch fehlt.
 - **Alle 2€-Sondermünzen** von 2004 bis heute (24 Länder, inkl. Andorra, Monaco, San Marino, Vatikan)
 - **Motiv jeder Münze als Foto**, dazu der Ausgabemonat
 - **Abhaken** mit einem Tipp auf das Kästchen rechts, Fortschrittsanzeige gesamt und je Jahr/Land
+- **Sperre** (Schloss oben rechts): Solange gesperrt, lassen sich Häkchen und Prägestätten nicht ändern – zum
+  gefahrlosen Durchscrollen. Bleibt gesperrt, bis man das Schloss wieder antippt.
 - **Details** beim Antippen von Bild oder Text: großes Bild, Beschreibung, Prägeauflage und Ausgabedatum (Texte der
   EZB, `app/data/details.json`), Preise und Bildnachweis. Nach oben oder unten wischen schließt die Ansicht.
 - **Deutsche Münzen nach Prägestätte** (A Berlin, D München, F Stuttgart, G Karlsruhe, J Hamburg): je Münze
