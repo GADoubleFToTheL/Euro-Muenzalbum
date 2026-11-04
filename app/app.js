@@ -68,7 +68,7 @@
     owned: new Set(store.get(KEY.owned, [])),
     seen: store.get(KEY.seen, null) && new Set(store.get(KEY.seen, [])),
     newIds: new Set(),
-    prefs: Object.assign({ filter: 'all', country: '', year: '', group: 'year', q: '', cat: 2 }, store.get(KEY.prefs, {})),
+    prefs: Object.assign({ filter: 'all', country: '', year: '', group: 'year', q: '', cat: 2, locked: false }, store.get(KEY.prefs, {})),
   };
 
   if (!CATS.some((c) => c.k === state.prefs.cat)) state.prefs.cat = 2;
@@ -919,6 +919,34 @@
     updateCounts();
     if (navigator.vibrate) navigator.vibrate(8);
   });
+
+  // Schloss oben: Solange gesperrt, lassen sich Häkchen, Prägestätten und eigene Münzen nicht ändern,
+  // damit beim Durchscrollen nichts versehentlich abgehakt wird. Bleibt bis zum Entsperren gespeichert.
+  const lockBtn = $('#lockBtn');
+  function paintLock() {
+    const on = state.prefs.locked === true;
+    document.documentElement.classList.toggle('locked', on);
+    lockBtn.setAttribute('aria-pressed', String(on));
+    lockBtn.title = on ? 'Gesperrt – antippen zum Entsperren' : 'Abhaken sperren';
+    lockBtn.setAttribute('aria-label', lockBtn.title);
+  }
+  paintLock();
+  lockBtn.addEventListener('click', () => {
+    state.prefs.locked = !state.prefs.locked;
+    savePrefs();
+    paintLock();
+    toast(state.prefs.locked ? 'Gesperrt – Abhaken ist aus, bis du das Schloss wieder antippst.'
+      : 'Entsperrt: Du kannst wieder abhaken.');
+  });
+  ui.list.addEventListener('click', (e) => {
+    if (!state.prefs.locked || !e.target.closest('.tickbox, button.mint, button.all, button[data-del]')) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    lockBtn.classList.remove('nudge');
+    void lockBtn.offsetWidth;   // Animation neu starten
+    lockBtn.classList.add('nudge');
+    toast('Gesperrt – zum Abhaken oben auf das Schloss tippen.');
+  }, true);
 
   // Prägestätten-Schalter und „alle“-Knopf bei Münzen mit mehreren Prägestätten.
   ui.list.addEventListener('click', (e) => {

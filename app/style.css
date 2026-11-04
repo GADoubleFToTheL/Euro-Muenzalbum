@@ -166,6 +166,23 @@ button { cursor: pointer; }
   transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease);
 }
 .icon-btn:active, .icon-btn[aria-expanded="true"] { background: rgba(255, 255, 255, 0.10); color: var(--text); border-color: var(--border-strong); }
+/* Vier Knöpfe in der Kopfzeile: etwas enger, damit der Titel auch auf schmalen Handys ganz bleibt */
+.title-row .icon-btn + .icon-btn { margin-left: -4px; }
+@media (max-width: 380px) {
+  .name h1 { font-size: 16px; }
+  .title-row .icon-btn { width: 36px; height: 36px; }
+}
+/* Schloss: gesperrt = Häkchen lassen sich nicht ändern */
+.lock-btn .closed, .lock-btn[aria-pressed="true"] .open { display: none; }
+.lock-btn[aria-pressed="true"] .closed { display: inline; }
+.lock-btn[aria-pressed="true"] {
+  color: var(--text); border-color: color-mix(in srgb, var(--cat) 65%, transparent);
+  background: color-mix(in srgb, var(--cat) 24%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cat) 35%, transparent);
+}
+.lock-btn.nudge { animation: nudge 0.42s var(--ease); }
+@keyframes nudge { 20%, 60% { transform: translateX(-4px) rotate(-6deg); } 40%, 80% { transform: translateX(4px) rotate(6deg); } }
+html.locked .tickbox, html.locked .mint, html.locked .coin .all, html.locked .coin .del { opacity: 0.45; cursor: not-allowed; }
 .icon-btn .dot {
   position: absolute; top: 6px; right: 6px;
   width: 8px; height: 8px; border-radius: 50%;
